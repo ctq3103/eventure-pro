@@ -1,0 +1,36 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js init
+
+PATH: 
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Ms Thuy\bin;C:\Program Files (x86)\Python37-32\Scripts;C:\Program Files (x86)\Python37-32;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files\Intel\IntelSGXPSW\bin\x64\Release;C:\Program Files\Intel\IntelSGXPSW\bin\win32\Release;C:\WINDOWS\System32\OpenSSH;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\WiFi\bin;C:\Program Files\Common Files\Intel\WirelessCommon;C:\Program Files\Java\jdk-12.0.2\bin;C:\strawberry\c\bin;C:\strawberry\perl\bin;C:\Program Files\Git\cmd;C:\Users\Ms Thuy\Downloads\dart-sass;C:\Program Files (x86)\Python37-32\pip;C:\Users\Ms Thuy\AppData\Roaming\npm;C:\Program Files\nodejs;C:\Program Files\PostgreSQL\12\bin;C:\Program Files (x86)\Yarn\bin;C:\kube;C:\Program Files\Docker Toolbox;C:\ProgramData\chocolatey\bin;C:\Users\Ms Thuy\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Ms Thuy\AppData\Local\Programs\Microsoft VS Code\bin
+
+Yarn version: 
+  1.21.1
+
+Node version: 
+  13.3.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:136925:13)
+      at Interface.emit (events.js:219:5)
+      at Interface._ttyWrite (readline.js:894:16)
+      at ReadStream.onkeypress (readline.js:200:10)
+      at ReadStream.emit (events.js:219:5)
+      at emitKeys (internal/readline/utils.js:438:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1160:36)
+      at ReadStream.emit (events.js:219:5)
+      at addChunk (_stream_readable.js:332:12)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
