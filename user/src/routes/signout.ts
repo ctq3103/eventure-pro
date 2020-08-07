@@ -3,11 +3,13 @@ import express from 'express';
 const router = express.Router();
 
 // @desc    Sign Out user
-// @route   POST /api/v1/auth/signout
-// @access  Privat
+// @route   POST /api/v1/users/signout
+// @access  Private
 
 router.post('/signout', (req, res) => {
-	res.send('Hi there');
+	req.session = null;
+
+	res.send({});
 });
 
 export { router as signoutRouter };

@@ -1,14 +1,15 @@
 import express, { Request, Response } from 'express';
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
+import jwt from 'jsonwebtoken';
+
+import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/User';
-import { DatabaseConnectionError } from '../errors/database-connection-error';
-import { RequestValidationError } from '../errors/request-validation-error';
 import { BadRequestError } from '../errors/bad-request-error';
 
 const router = express.Router();
 
 // @desc    Sign Up user
-// @route   POST /api/v1/auth/signup
+// @route   POST /api/v1/users/signup
 // @access  Public
 
 router.post(
@@ -27,13 +28,8 @@ router.post(
 			return true;
 		}),
 	],
+	validateRequest,
 	async (req: Request, res: Response) => {
-		const errors = validationResult(req);
-
-		if (!errors.isEmpty()) {
-			throw new RequestValidationError(errors.array());
-		}
-
 		const { email, password, passwordConfirmation } = req.body;
 
 		const existingUser = await User.findOne({ email });
@@ -44,6 +40,20 @@ router.post(
 
 		const user = User.build({ email, password, passwordConfirmation });
 		await user.save();
+
+		//Generate JWT
+		const userJwt = jwt.sign(
+			{
+				id: user.id,
+				email: user.email,
+			},
+			process.env.JWT_KEY! // exclaimation mark that JWT_KEY cannot be null or undefined
+		);
+
+		//Store JWT on session object
+		req.session = {
+			jwt: userJwt,
+		};
 
 		res.status(201).send(user);
 	}

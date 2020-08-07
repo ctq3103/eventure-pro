@@ -1,13 +1,14 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
+import { currentUser } from '../middlewares/current-user';
 
 const router = express.Router();
 
 // @desc    Get current user
 // @route   GET /api/v1/users/currentuser
-// @access  Public
+// @access  Private
 
-router.get('/currentuser', (req, res) => {
-	res.send('Hi there');
+router.get('/currentuser', currentUser, (req: Request, res: Response) => {
+	res.send({ currentUser: req.currentUser || null });
 });
 
 export { router as currentUserRouter };

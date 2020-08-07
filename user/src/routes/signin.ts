@@ -1,12 +1,57 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
+import { body } from 'express-validator';
+import jwt from 'jsonwebtoken';
+
+import { User } from '../models/User';
+import { validateRequest } from '../middlewares/validate-request';
+import { BadRequestError } from '../errors/bad-request-error';
+import { Password } from '../services/password';
 
 const router = express.Router();
 
 // @desc    Sign In user
-// @route   POST /api/v1/auth/register
+// @route   POST /api/v1/users/signin
 // @access  Private
-router.post('/signin', (req, res) => {
-	res.send('Hi there');
-});
+router.post(
+	'/signin',
+	[
+		body('email').isEmail().withMessage('Please provide a valid email'),
+		body('password').trim().notEmpty().withMessage('Please provide a password'),
+	],
+	validateRequest,
+	async (req: Request, res: Response) => {
+		const { email, password } = req.body;
+		const existingUser = await User.findOne({ email });
+
+		if (!existingUser) {
+			throw new BadRequestError('Invalid credentials');
+		}
+
+		const passwordsMatch = await Password.compare(
+			existingUser.password,
+			password
+		);
+
+		if (!passwordsMatch) {
+			throw new BadRequestError('Invalid Credentials');
+		}
+
+		//Generate JWT
+		const userJwt = jwt.sign(
+			{
+				id: existingUser.id,
+				email: existingUser.email,
+			},
+			process.env.JWT_KEY! // exclaimation mark that JWT_KEY cannot be null or undefined
+		);
+
+		//Store JWT on session object
+		req.session = {
+			jwt: userJwt,
+		};
+
+		res.status(200).send(existingUser);
+	}
+);
 
 export { router as signinRouter };
