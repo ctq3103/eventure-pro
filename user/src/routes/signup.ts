@@ -22,7 +22,9 @@ router.post(
 			.withMessage('Password must be between 8 and 20 characters'),
 		body('passwordConfirmation').custom((value, { req }) => {
 			if (value !== req.body.password) {
-				throw new Error('Password confirmation does not match password');
+				throw new BadRequestError(
+					'Password confirmation does not match password'
+				);
 			}
 
 			return true;
