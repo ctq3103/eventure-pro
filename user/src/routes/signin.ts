@@ -12,7 +12,7 @@ const router = express.Router();
 // @route   POST /api/v1/users/signin
 // @access  Private
 router.post(
-	'/signin',
+	'/api/users/signin',
 	[
 		body('email').isEmail().withMessage('Please provide a valid email'),
 		body('password').trim().notEmpty().withMessage('Please provide a password'),

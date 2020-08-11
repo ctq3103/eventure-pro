@@ -1,12 +1,11 @@
 import express from 'express';
 import 'express-async-errors';
 import cookieSession from 'cookie-session';
-
-import { currentUserRouter } from './routes/current-user';
-import { signinRouter } from './routes/signin';
-import { signoutRouter } from './routes/signout';
-import { signupRouter } from './routes/signup';
-import { errorHandler, NotFoundError } from '@eventure/common';
+import { errorHandler, NotFoundError, currentUser } from '@eventure/common';
+import { createOrgRouter } from './routes/new';
+import { showOrgRouter } from './routes/show';
+import { indexOrgRouter } from './routes';
+import { updateOrgRouter } from './routes/update';
 
 const app = express();
 
@@ -24,11 +23,12 @@ app.use(
 	})
 );
 
-//Routes
-app.use(currentUserRouter);
-app.use(signupRouter);
-app.use(signinRouter);
-app.use(signoutRouter);
+app.use(currentUser);
+
+app.use(createOrgRouter);
+app.use(showOrgRouter);
+app.use(indexOrgRouter);
+app.use(updateOrgRouter);
 
 app.get('*', async () => {
 	throw new NotFoundError();

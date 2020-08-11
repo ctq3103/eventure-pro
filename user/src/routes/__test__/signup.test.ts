@@ -3,7 +3,7 @@ import { app } from '../../app';
 
 it('returns a 201 on successful signup', async () => {
 	return request(app)
-		.post('/api/v1/users/signup')
+		.post('/api/users/signup')
 		.send({
 			email: 'test@test.com',
 			password: 'password',
@@ -14,7 +14,7 @@ it('returns a 201 on successful signup', async () => {
 
 it('returns a 400 with an invalid email', async () => {
 	return request(app)
-		.post('/api/v1/users/signup')
+		.post('/api/users/signup')
 		.send({
 			email: 'test',
 			password: 'password',
@@ -25,7 +25,7 @@ it('returns a 400 with an invalid email', async () => {
 
 it('returns a 400 with no email and passwords', async () => {
 	await request(app)
-		.post('/api/v1/users/signup')
+		.post('/api/users/signup')
 		.send({
 			email: '',
 			password: '',
@@ -33,7 +33,7 @@ it('returns a 400 with no email and passwords', async () => {
 		})
 		.expect(400);
 	await request(app)
-		.post('/api/v1/users/signup')
+		.post('/api/users/signup')
 		.send({
 			email: 'test@test.com',
 			password: '',
@@ -41,7 +41,7 @@ it('returns a 400 with no email and passwords', async () => {
 		})
 		.expect(400);
 	await request(app)
-		.post('/api/v1/users/signup')
+		.post('/api/users/signup')
 		.send({
 			email: '',
 			password: 'password',
@@ -52,7 +52,7 @@ it('returns a 400 with no email and passwords', async () => {
 
 it('returns a 400 when Passwords do not match', async () => {
 	return request(app)
-		.post('/api/v1/users/signup')
+		.post('/api/users/signup')
 		.send({
 			email: 'test@test.com',
 			password: 'password',
@@ -63,7 +63,7 @@ it('returns a 400 when Passwords do not match', async () => {
 
 it('returns a 400 invalid passwords', async () => {
 	return request(app)
-		.post('/api/v1/users/signup')
+		.post('/api/users/signup')
 		.send({
 			email: 'test@test.com',
 			password: 'pa',
@@ -74,7 +74,7 @@ it('returns a 400 invalid passwords', async () => {
 
 it('disallows duplicate emails', async () => {
 	await request(app)
-		.post('/api/v1/users/signup')
+		.post('/api/users/signup')
 		.send({
 			email: 'test@test.com',
 			password: 'password',
@@ -83,7 +83,7 @@ it('disallows duplicate emails', async () => {
 		.expect(201);
 
 	await request(app)
-		.post('/api/v1/users/signup')
+		.post('/api/users/signup')
 		.send({
 			email: 'test@test.com',
 			password: 'password',
@@ -94,7 +94,7 @@ it('disallows duplicate emails', async () => {
 
 it('sets a cookie after successful signup', async () => {
 	const response = await request(app)
-		.post('/api/v1/users/signup')
+		.post('/api/users/signup')
 		.send({
 			email: 'test@test.com',
 			password: 'password',

@@ -6,7 +6,7 @@ const router = express.Router();
 // @route   POST /api/v1/users/signout
 // @access  Private
 
-router.post('/signout', (req, res) => {
+router.post('/api/users/signout', (req, res) => {
 	req.session = null;
 
 	res.send({});

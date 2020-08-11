@@ -7,8 +7,12 @@ const router = express.Router();
 // @route   GET /api/v1/users/currentuser
 // @access  Private
 
-router.get('/currentuser', currentUser, (req: Request, res: Response) => {
-	res.send({ currentUser: req.currentUser || null });
-});
+router.get(
+	'/api/users/currentuser',
+	currentUser,
+	(req: Request, res: Response) => {
+		res.send({ currentUser: req.currentUser || null });
+	}
+);
 
 export { router as currentUserRouter };

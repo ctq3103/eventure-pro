@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-depl
+  name: organization-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user
+      app: organization
   template:
     metadata:
       labels:
-        app: user
+        app: organization
     spec:
       containers:
-        - name: user
-          image: quynhchu/eventure-user
+        - name: organization
+          image: quynhchu/eventure-organization
           env:
             - name: MONGO_URI
-              value: 'mongodb://user-mongo-srv:27017/user'
+              value: 'mongodb://organization-mongo-srv:27017/organization'
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -27,12 +27,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-srv
+  name: organization-srv
 spec:
   selector:
-    app: user
+    app: organization
   ports:
-    - name: user
+    - name: organization
       protocol: TCP
       port: 3000
       targetPort: 3000

@@ -12,7 +12,7 @@ const router = express.Router();
 // @access  Public
 
 router.post(
-	'/signup',
+	'/api/users/signup',
 	[
 		body('email').isEmail().withMessage('Please provide a valid email'),
 		body('password')
