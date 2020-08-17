@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 import mongoose from 'mongoose';
+import { natsWrapper } from '../../nats-wrapper';
 
 const name = 'Ornare arcu odio ut';
 const description =
@@ -125,4 +126,26 @@ it('updates the ticket provided valid inputs', async () => {
 		.send();
 
 	expect(orgResponse.body.name).toEqual('non diam phasellus vestibulum lorem');
+});
+
+it('publishes NATS event', async () => {
+	const cookie = global.getAuthCookie();
+
+	const response = await request(app)
+		.post('/api/organizations')
+		.set('Cookie', cookie)
+		.send({ name, description, address });
+
+	await request(app)
+		.put(`/api/organizations/${response.body.id}`)
+		.set('Cookie', cookie)
+		.send({
+			name: 'non diam phasellus vestibulum lorem',
+			description:
+				'condimentum mattis pellentesque id nibh tortor id aliquet lectus proin nibh nisl condimentum id venenatis a condimentum vitae sapien pellentesque',
+			address: '23 Jump Street',
+		})
+		.expect(200);
+
+	expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

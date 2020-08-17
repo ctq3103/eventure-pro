@@ -12,6 +12,9 @@ declare global {
 	}
 }
 
+//Use mock for fake version of natsWrapper for testing
+jest.mock('../nats-wrapper');
+
 let mongo: any;
 
 beforeAll(async () => {
@@ -27,6 +30,9 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+	//reset mock function before each test
+	jest.clearAllMocks();
+
 	const collections = await mongoose.connection.db.collections();
 
 	for (let collection of collections) {

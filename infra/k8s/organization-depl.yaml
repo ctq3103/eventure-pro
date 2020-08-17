@@ -16,6 +16,14 @@ spec:
         - name: organization
           image: quynhchu/eventure-organization
           env:
+            - name: NATS_CLIENT_ID # get pod name to be client ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLUSTER_ID
+              value: eventure
             - name: MONGO_URI
               value: 'mongodb://organization-mongo-srv:27017/organization'
             - name: JWT_KEY

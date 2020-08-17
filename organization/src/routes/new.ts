@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import { requireAuth, validateRequest } from '@eventure/common';
 import { body } from 'express-validator';
 import { Organization } from '../models/Organization';
+import { OrganizationCreatedPublisher } from '../NATS-events/publishers/organization-created-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -24,6 +26,15 @@ router.post(
 			userId: req.currentUser!.id,
 		});
 		await newOrg.save();
+
+		const { id, name, description, address, userId } = newOrg;
+		await new OrganizationCreatedPublisher(natsWrapper.client).publish({
+			id,
+			name,
+			description,
+			address,
+			userId,
+		});
 		res.status(201).send(newOrg);
 	}
 );

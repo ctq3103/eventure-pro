@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 import { Organization } from '../../models/Organization';
+import { natsWrapper } from '../../nats-wrapper';
 
 const name = 'Ornare arcu odio ut';
 const description =
@@ -113,4 +114,20 @@ it('creates an organization with valid input', async () => {
 	organizations = await Organization.find({});
 	expect(organizations.length).toEqual(1);
 	expect(organizations[0].name).toEqual(name);
+});
+
+it('publishes NATS event', async () => {
+	let organizations = await Organization.find({});
+	expect(organizations.length).toEqual(0);
+
+	await request(app)
+		.post('/api/organizations')
+		.set('Cookie', global.getAuthCookie())
+		.send({
+			name,
+			description,
+			address,
+		});
+
+	expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

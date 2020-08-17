@@ -7,6 +7,8 @@ import {
 } from '@eventure/common';
 import { body } from 'express-validator';
 import { Organization } from '../models/Organization';
+import { OrganizationUpdatedPublisher } from '../NATS-events/publishers/organization-updated-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -31,6 +33,10 @@ router.put(
 		});
 
 		await org.save();
+
+		new OrganizationUpdatedPublisher(natsWrapper.client).publish({
+			...req.body,
+		});
 		res.send(org);
 	}
 );
