@@ -5,13 +5,12 @@ class NatsWrapper {
 
 	get client() {
 		if (!this._client) {
-			throw new Error('Cannot access NATS client before connecting!');
+			throw new Error('Cannot access NATS client before connecting');
 		}
 
 		return this._client;
 	}
 
-	//connect(<clusterID>, <clientID>, <URL>)
 	connect(clusterId: string, clientId: string, url: string) {
 		this._client = nats.connect(clusterId, clientId, { url });
 

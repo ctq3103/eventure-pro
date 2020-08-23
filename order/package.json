@@ -1,11 +1,11 @@
 {
-	"name": "organizations",
+	"name": "order",
 	"version": "1.0.0",
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
 		"start": "ts-node-dev src/index.ts",
-		"test": "jest --watchAll --no-cache"
+		"test": "jest --watchAll --no-cache --logHeapUsage"
 	},
 	"jest": {
 		"preset": "ts-jest",
@@ -19,7 +19,7 @@
 		"@types/cookie-session": "^2.0.41",
 		"@types/express": "^4.17.7",
 		"@types/jsonwebtoken": "^8.5.0",
-		"@types/mongoose": "^5.7.34",
+		"@types/mongoose": "^5.7.36",
 		"cookie-session": "^1.4.0",
 		"express": "^4.17.1",
 		"express-async-errors": "^3.1.1",
@@ -32,11 +32,11 @@
 		"typescript": "^3.9.7"
 	},
 	"devDependencies": {
-		"@types/jest": "^26.0.9",
-		"@types/supertest": "^2.0.10",
-		"jest": "^26.2.2",
+		"@types/jest": "25.2.1",
+		"@types/supertest": "2.0.8",
+		"jest": "25.2.7",
 		"mongodb-memory-server": "^6.6.3",
-		"supertest": "^4.0.2",
-		"ts-jest": "^26.1.4"
+		"supertest": "4.0.2",
+		"ts-jest": "25.3.1"
 	}
 }

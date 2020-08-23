@@ -24,3 +24,19 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: quynhchu/eventure-event
+      context: event
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: quynhchu/eventure-order
+      context: order
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
