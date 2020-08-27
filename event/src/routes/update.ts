@@ -38,14 +38,27 @@ router.put(
 
 		await event.save();
 
-		const { id, title, address, price, datetime, userId, version } = event;
+		const {
+			id,
+			title,
+			address,
+			price,
+			totalTickets,
+			status,
+			datetime,
+			userId,
+			version,
+			organizationId,
+		} = event;
 		await new EventUpdatedPublisher(natsWrapper.client).publish({
 			id,
 			title,
 			address,
 			price,
+			status,
 			datetime: datetime.toISOString(),
 			userId,
+			organizationId,
 			version,
 		});
 

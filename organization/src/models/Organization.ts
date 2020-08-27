@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 //An Interface that describes the properties
 // that are required to create a new Organization
@@ -7,15 +8,17 @@ interface OrgAttrs {
 	description: string;
 	address: string;
 	userId: string;
+	version: number;
 }
 
 //An Interface that describes the properties
 // that Org Document has
-interface OrgDoc extends mongoose.Document {
+export interface OrgDoc extends mongoose.Document {
 	name: string;
 	description: string;
 	address: string;
 	userId: string;
+	version: number;
 }
 
 //An Interface that describes the properties
@@ -70,6 +73,9 @@ const orgSchema = new mongoose.Schema(
 		},
 	}
 );
+
+orgSchema.set('versionKey', 'version');
+orgSchema.plugin(updateIfCurrentPlugin);
 
 orgSchema.statics.build = (attrs: OrgAttrs) => {
 	return new Organization(attrs);

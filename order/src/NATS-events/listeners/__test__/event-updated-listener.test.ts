@@ -1,6 +1,6 @@
 import { EventUpdatedListener } from '../event-updated-listener';
 import { natsWrapper } from '../../../nats-wrapper';
-import { EventUpdatedEvent } from '@eventure/common';
+import { EventUpdatedEvent, TicketStatus } from '@eventure/common';
 import mongoose from 'mongoose';
 import { Event } from '../../../models/Event';
 
@@ -12,6 +12,7 @@ const setup = async () => {
 	const event = Event.build({
 		id: mongoose.Types.ObjectId().toHexString(),
 		title: 'test',
+		status: TicketStatus.Available,
 		price: 100,
 	});
 	await event.save();
@@ -22,9 +23,11 @@ const setup = async () => {
 		version: event.version + 1,
 		title: 'test updated',
 		address: 'test address',
-		datetime: '2021-1-15T00:09:30.000Z',
+		datetime: '2021-11-11T00:09:30.000Z',
 		price: 500,
+		status: TicketStatus.Available,
 		userId: mongoose.Types.ObjectId().toHexString(),
+		organizationId: mongoose.Types.ObjectId().toHexString(),
 	};
 
 	// Create a fake message object

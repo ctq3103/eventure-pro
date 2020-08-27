@@ -1,5 +1,6 @@
 import { Event } from '../Event';
-import { Error } from 'mongoose';
+import mongoose from 'mongoose';
+import { TicketStatus } from '@eventure/common';
 
 it('implements optimistic concurrency control', async (done) => {
 	// Create an instance of an event
@@ -9,7 +10,10 @@ it('implements optimistic concurrency control', async (done) => {
 		address: 'test address',
 		datetime: new Date('2021-01-01T18:00:00'),
 		price: 50,
+		totalTickets: 50,
+		status: TicketStatus.Available,
 		userId: '123',
+		organizationId: mongoose.Types.ObjectId().toHexString(),
 	});
 
 	// Save the event to the database
@@ -43,7 +47,10 @@ it('increments the version number on multiple saves', async () => {
 		address: 'test address',
 		datetime: new Date('2021-01-01T18:00:00'),
 		price: 50,
+		totalTickets: 50,
+		status: TicketStatus.Available,
 		userId: '123',
+		organizationId: mongoose.Types.ObjectId().toHexString(),
 	});
 
 	await event.save();

@@ -40,3 +40,19 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: quynhchu/eventure-expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: quynhchu/eventure-payment
+      context: payment
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .

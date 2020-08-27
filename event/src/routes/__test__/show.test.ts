@@ -1,6 +1,7 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
 import { app } from '../../app';
+import { TicketStatus } from '@eventure/common';
 
 const title = 'Ornare arcu odio ut';
 const description =
@@ -8,6 +9,9 @@ const description =
 const address = '22 Jump Street';
 const datetime = new Date('2021-01-01T18:00:00');
 const price = 50;
+const totalTickets = 50;
+const status = TicketStatus.Available;
+const organizationId = mongoose.Types.ObjectId().toHexString();
 
 it('returns a 404 if the event is not found', async () => {
 	const id = new mongoose.Types.ObjectId().toHexString();
@@ -25,6 +29,9 @@ it('returns the event if the event is found', async () => {
 			address,
 			datetime,
 			price,
+			status,
+			organizationId,
+			totalTickets,
 		})
 		.expect(201);
 

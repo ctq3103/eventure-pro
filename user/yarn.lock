@@ -271,10 +271,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@eventure/common@1.0.23":
-  version "1.0.23"
-  resolved "https://registry.yarnpkg.com/@eventure/common/-/common-1.0.23.tgz#33c1093e367f2bf8da3f9047e57d449ef4df70b3"
-  integrity sha512-gGmYWHmUSSUFE12sfbdOFXS4tEiqDJ6ZHS/vUatEVZSZVpHivHgzH5Jb+ga2FbO+/eR+cnC8ROctaMeC8yjSug==
+"@eventure/common@1.0.35":
+  version "1.0.35"
+  resolved "https://registry.yarnpkg.com/@eventure/common/-/common-1.0.35.tgz#6c60a98a50af544cdf1c970c217c946d7a9d2d6f"
+  integrity sha512-vQ3tGl3b/KRHULMtAq92bpu502srM1Tw7vQfIuHEpwkHHC2fXp/PoU9kKbEhSc/k3oZLKrqS+7tEuWyt8mucpg==
   dependencies:
     "@types/cookie-session" "^2.0.41"
     "@types/express" "^4.17.7"

@@ -6,6 +6,7 @@ import { createOrgRouter } from './routes/new';
 import { showOrgRouter } from './routes/show';
 import { indexOrgRouter } from './routes';
 import { updateOrgRouter } from './routes/update';
+import { showEventsRouter } from './routes/show-events';
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(createOrgRouter);
 app.use(showOrgRouter);
 app.use(indexOrgRouter);
 app.use(updateOrgRouter);
+app.use(showEventsRouter);
 
 app.get('*', async () => {
 	throw new NotFoundError();

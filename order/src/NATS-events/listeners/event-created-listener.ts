@@ -8,11 +8,12 @@ export class EventCreatedListener extends Listener<EventCreatedEvent> {
 	queueGroupName = queueGroupName;
 
 	async onMessage(data: EventCreatedEvent['data'], msg: Message) {
-		const { id, title, price } = data;
+		const { id, title, price, status } = data;
 		const event = Event.build({
 			id,
 			title,
 			price,
+			status,
 		});
 		await event.save();
 

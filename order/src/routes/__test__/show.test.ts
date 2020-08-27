@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../../app';
 import { Event } from '../../models/Event';
+import { TicketStatus } from '@eventure/common';
 
 it('fetches the order', async () => {
 	// Create a ticket
@@ -9,6 +10,7 @@ it('fetches the order', async () => {
 		id: mongoose.Types.ObjectId().toHexString(),
 		title: 'asdfghjkl',
 		price: 20,
+		status: TicketStatus.Available,
 	});
 	await event.save();
 
@@ -36,6 +38,7 @@ it('returns an error if one user tries to fetch another users order', async () =
 		id: mongoose.Types.ObjectId().toHexString(),
 		title: 'concert',
 		price: 20,
+		status: TicketStatus.Available,
 	});
 	await event.save();
 

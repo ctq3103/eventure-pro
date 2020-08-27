@@ -1,7 +1,13 @@
-import { Listener, EventUpdatedEvent, Subjects } from '@eventure/common';
+import {
+	Listener,
+	EventUpdatedEvent,
+	Subjects,
+	TicketStatus,
+} from '@eventure/common';
 import { queueGroupName } from './queue-group-name';
 import { Message } from 'node-nats-streaming';
 import { Event } from '../../models/Event';
+import { OrderCancelledPublisher } from '../publishers/order-cancelled-publisher';
 
 export class EventUpdatedListener extends Listener<EventUpdatedEvent> {
 	readonly subject = Subjects.EventUpdated;
@@ -13,8 +19,9 @@ export class EventUpdatedListener extends Listener<EventUpdatedEvent> {
 		if (!event) {
 			throw new Error('Event not found');
 		}
-		const { title, price } = data;
-		event.set({ title, price });
+
+		const { title, price, status } = data;
+		event.set({ title, price, status });
 		await event.save();
 
 		msg.ack();

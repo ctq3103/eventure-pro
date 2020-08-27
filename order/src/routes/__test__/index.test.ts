@@ -3,12 +3,14 @@ import request from 'supertest';
 import { app } from '../../app';
 import { Order } from '../../models/Order';
 import { Event } from '../../models/Event';
+import { TicketStatus } from '@eventure/common';
 
 const buildEvent = async () => {
 	const event = Event.build({
 		id: mongoose.Types.ObjectId().toHexString(),
 		title: 'concert',
 		price: 20,
+		status: TicketStatus.Available,
 	});
 	await event.save();
 

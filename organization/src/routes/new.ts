@@ -27,13 +27,14 @@ router.post(
 		});
 		await newOrg.save();
 
-		const { id, name, description, address, userId } = newOrg;
+		const { id, name, description, address, userId, version } = newOrg;
 		await new OrganizationCreatedPublisher(natsWrapper.client).publish({
 			id,
 			name,
 			description,
 			address,
 			userId,
+			version,
 		});
 		res.status(201).send(newOrg);
 	}

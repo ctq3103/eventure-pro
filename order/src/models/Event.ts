@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import { TicketStatus } from '@eventure/common';
 
 //An Interface that describes the properties
 // that are required to create a new Event
@@ -7,6 +8,7 @@ interface EventAttrs {
 	id: string;
 	title: string;
 	price: number;
+	status: TicketStatus;
 }
 
 //An Interface that describes the properties
@@ -22,8 +24,10 @@ interface EventModel extends mongoose.Model<EventDoc> {
 //An Interface that describes the properties
 // that a Event Document has
 export interface EventDoc extends mongoose.Document {
+	id: string;
 	title: string;
 	price: number;
+	status: TicketStatus;
 	version: number;
 }
 
@@ -38,6 +42,11 @@ const eventSchema = new mongoose.Schema(
 			required: true,
 			default: 50,
 			min: 0,
+		},
+		status: {
+			type: String,
+			enum: Object.values(TicketStatus),
+			default: TicketStatus.Available,
 		},
 	},
 	{
@@ -67,6 +76,7 @@ eventSchema.statics.build = (attrs: EventAttrs) => {
 		_id: attrs.id,
 		title: attrs.title,
 		price: attrs.price,
+		status: attrs.status,
 	});
 };
 

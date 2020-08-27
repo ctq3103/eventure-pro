@@ -36,6 +36,7 @@ router.put(
 
 		new OrganizationUpdatedPublisher(natsWrapper.client).publish({
 			...req.body,
+			version: org.version,
 		});
 		res.send(org);
 	}

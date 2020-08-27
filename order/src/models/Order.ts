@@ -11,6 +11,7 @@ interface OrderAttrs {
 	expiresAt: Date;
 	numberOfTickets: number;
 	totalPrice: number;
+	eventId: string;
 	event: EventDoc;
 }
 
@@ -27,8 +28,9 @@ interface OrderDoc extends mongoose.Document {
 	status: OrderStatus;
 	expiresAt: Date;
 	numberOfTickets: number;
-	totalPrice: number;
+	totalPrice?: number;
 	version: number;
+	eventId: string;
 	event: EventDoc;
 }
 
@@ -55,9 +57,11 @@ const orderSchema = new mongoose.Schema(
 		totalPrice: {
 			type: Number,
 		},
+		eventId: String,
 		event: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Event',
+			required: true,
 		},
 	},
 	{

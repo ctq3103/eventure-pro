@@ -4,7 +4,7 @@ import { app } from '../../app';
 import { Event } from '../../models/Event';
 import { Order } from '../../models/Order';
 import { natsWrapper } from '../../nats-wrapper';
-import { OrderStatus } from '@eventure/common';
+import { OrderStatus, TicketStatus } from '@eventure/common';
 
 it('marks an order as cancelled', async () => {
 	// create a event with event Model
@@ -12,6 +12,7 @@ it('marks an order as cancelled', async () => {
 		id: mongoose.Types.ObjectId().toHexString(),
 		title: 'concert',
 		price: 20,
+		status: TicketStatus.Available,
 	});
 	await event.save();
 
@@ -41,6 +42,7 @@ it('emits a order cancelled event', async () => {
 		id: mongoose.Types.ObjectId().toHexString(),
 		title: 'Machine Learning',
 		price: 200,
+		status: TicketStatus.Available,
 	});
 	await event.save();
 

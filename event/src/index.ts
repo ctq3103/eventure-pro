@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import { app } from './app';
 import { natsWrapper } from './nats-wrapper';
+import { PaymentCreatedListener } from './NATS-events/listeners/payment-created-listener';
+import { EventExpiredListener } from './NATS-events/listeners/event-expired-listener';
 
 //Mongoose connect
 const start = async () => {
@@ -31,6 +33,9 @@ const start = async () => {
 		});
 		process.on('SIGINT', () => natsWrapper.client.close()); //interupt signal
 		process.on('SIGTERM', () => natsWrapper.client.close()); //terminate signal
+
+		new PaymentCreatedListener(natsWrapper.client).listen();
+		new EventExpiredListener(natsWrapper.client).listen();
 
 		await mongoose.connect(process.env.MONGO_URI, {
 			useNewUrlParser: true,
