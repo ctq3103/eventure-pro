@@ -14,6 +14,7 @@ declare global {
 
 //Use mock for fake version of natsWrapper for testing
 jest.mock('../nats-wrapper');
+jest.setTimeout(30000);
 
 let mongo: any;
 

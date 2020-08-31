@@ -2,7 +2,6 @@ import {
 	Listener,
 	EventExpiredEvent,
 	Subjects,
-	OrderStatus,
 	TicketStatus,
 } from '@eventure/common';
 import { queueGroupName } from './queueGroupName';

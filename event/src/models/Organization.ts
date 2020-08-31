@@ -5,30 +5,23 @@ import slugify from 'slugify';
 //An Interface that describes the properties
 // that are required to create a new Organization
 interface OrgAttrs {
+	id: string;
 	name: string;
 	description: string;
 	address: string;
 	userId: string;
-	image?: {
-		name: string;
-		data: Buffer;
-	};
-	version: number;
 }
 
 //An Interface that describes the properties
 // that Org Document has
-interface OrgDoc extends mongoose.Document {
+export interface OrgDoc extends mongoose.Document {
+	id: string;
 	name: string;
 	description: string;
 	address: string;
 	email: string;
 	slug: string;
 	userId: string;
-	image?: {
-		name: string;
-		data: Buffer;
-	};
 	version: number;
 }
 
@@ -36,6 +29,7 @@ interface OrgDoc extends mongoose.Document {
 // that a Org Model has
 interface OrgModel extends mongoose.Model<OrgDoc> {
 	build(attrs: OrgAttrs): OrgDoc;
+	findByNatsEvent(org: { id: string; version: number }): Promise<OrgDoc | null>;
 }
 
 const orgSchema = new mongoose.Schema(
@@ -70,10 +64,6 @@ const orgSchema = new mongoose.Schema(
 				'Please add a valid email',
 			],
 		},
-		image: {
-			name: String,
-			data: Buffer,
-		},
 		slug: String,
 		userId: {
 			type: String,
@@ -87,26 +77,37 @@ const orgSchema = new mongoose.Schema(
 				delete ret._id;
 			},
 		},
-		toObject: { virtuals: true },
 	}
 );
 
 orgSchema.set('versionKey', 'version');
 orgSchema.plugin(updateIfCurrentPlugin);
 
-orgSchema.virtual('events', {
-	ref: 'Event',
-	localField: 'id',
-	foreignField: 'organization',
-	justOne: false,
-});
-
 orgSchema.pre<OrgDoc>('save', function () {
 	this.slug = slugify(this.name, { lower: true });
 });
 
-orgSchema.statics.build = (attrs: OrgAttrs) => {
-	return new Organization(attrs);
+orgSchema.statics.findByNatsEvent = (org: { id: string; version: number }) => {
+	return Organization.findOne({
+		_id: org.id,
+		version: org.version - 1,
+	});
+};
+
+orgSchema.statics.build = ({
+	id,
+	name,
+	address,
+	description,
+	userId,
+}: OrgAttrs) => {
+	return new Organization({
+		_id: id,
+		name,
+		address,
+		description,
+		userId,
+	});
 };
 
 const Organization = mongoose.model<OrgDoc, OrgModel>(

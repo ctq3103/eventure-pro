@@ -1,12 +1,14 @@
 import express from 'express';
 import 'express-async-errors';
 import cookieSession from 'cookie-session';
+import fileUpload from 'express-fileupload';
 import { errorHandler, NotFoundError, currentUser } from '@eventure/common';
 import { createOrgRouter } from './routes/new';
 import { showOrgRouter } from './routes/show';
 import { indexOrgRouter } from './routes';
 import { updateOrgRouter } from './routes/update';
 import { showEventsRouter } from './routes/show-events';
+import { updatePhotoOrgRouter } from './routes/update-photo';
 
 const app = express();
 
@@ -25,12 +27,14 @@ app.use(
 );
 
 app.use(currentUser);
+app.use(fileUpload);
 
 app.use(createOrgRouter);
 app.use(showOrgRouter);
 app.use(indexOrgRouter);
 app.use(updateOrgRouter);
 app.use(showEventsRouter);
+app.use(updatePhotoOrgRouter);
 
 app.get('*', async () => {
 	throw new NotFoundError();

@@ -15,7 +15,6 @@ const router = express.Router();
 router.put(
 	'/api/organizations/:id',
 	requireAuth,
-	[body('name').trim().not().isEmpty().withMessage('Name is required')],
 	validateRequest,
 	async (req: Request, res: Response) => {
 		const org = await Organization.findById(req.params.id);

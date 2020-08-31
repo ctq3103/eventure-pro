@@ -1,7 +1,7 @@
+import mongoose from 'mongoose';
 import { OrderCreatedListener } from '../order-created-listener';
 import { natsWrapper } from '../../../nats-wrapper';
 import { OrderCreatedEvent, OrderStatus } from '@eventure/common';
-import mongoose from 'mongoose';
 import { Message } from 'node-nats-streaming';
 import { Order } from '../../../models/Order';
 

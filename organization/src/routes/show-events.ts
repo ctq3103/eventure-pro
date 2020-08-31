@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { Event } from '../models/Event';
-import { NotFoundError } from '@eventure/common';
+import { NotFoundError, advancedResults } from '@eventure/common';
 import { Organization } from '../models/Organization';
 
 const router = express.Router();
@@ -18,10 +18,7 @@ router.get(
 			organizationId: req.params.orgId,
 		});
 
-		res.send({
-			count: events.length,
-			events,
-		});
+		res.send(events);
 	}
 );
 

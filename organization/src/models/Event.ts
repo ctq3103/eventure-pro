@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 import { TicketStatus } from '@eventure/common';
-import { OrgDoc } from './Organization';
 
 //An Interface that describes the properties
 // that are required to create a new Event
@@ -12,6 +11,10 @@ interface EventAttrs {
 	price: number;
 	userId: string;
 	status: TicketStatus;
+	image?: {
+		name: string;
+		data: Buffer;
+	};
 	organizationId: string;
 }
 
@@ -22,10 +25,6 @@ interface EventModel extends mongoose.Model<EventDoc> {
 	findByNatsEvent(event: {
 		id: string;
 		version: number;
-	}): Promise<EventDoc | null>;
-	findByStatus(event: {
-		id: string;
-		status: TicketStatus;
 	}): Promise<EventDoc | null>;
 }
 
@@ -43,7 +42,10 @@ interface EventDoc extends mongoose.Document {
 	duration: string;
 	requirements: string;
 	organizationId: string;
-	organization: OrgDoc;
+	image?: {
+		name: string;
+		data: Buffer;
+	};
 	version: number;
 }
 
@@ -81,9 +83,9 @@ const eventSchema = new mongoose.Schema(
 		organizationId: {
 			type: String,
 		},
-		organization: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Organization',
+		image: {
+			name: String,
+			data: Buffer,
 		},
 	},
 	{
@@ -106,16 +108,6 @@ eventSchema.statics.findByNatsEvent = (event: {
 	return Event.findOne({
 		_id: event.id,
 		version: event.version - 1,
-	});
-};
-
-eventSchema.statics.findByStatus = (event: {
-	id: string;
-	status: TicketStatus;
-}) => {
-	return Event.find({
-		_id: event.id,
-		status: event.status,
 	});
 };
 

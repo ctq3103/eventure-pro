@@ -6,6 +6,10 @@ import { Password } from '../services/password';
 interface UserAttrs {
 	email: string;
 	password: string;
+	image?: {
+		name: string;
+		data: Buffer;
+	};
 	passwordConfirmation: string;
 }
 
@@ -20,6 +24,10 @@ interface UserModel extends mongoose.Model<UserDoc> {
 interface UserDoc extends mongoose.Document {
 	email: string;
 	password: string;
+	image?: {
+		name: string;
+		data: Buffer;
+	};
 	passwordConfirmation: string;
 }
 
@@ -36,6 +44,10 @@ const userSchema = new mongoose.Schema(
 		passwordConfirmation: {
 			type: String,
 			required: true,
+		},
+		image: {
+			name: String,
+			data: Buffer,
 		},
 	},
 	{

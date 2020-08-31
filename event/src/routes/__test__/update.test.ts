@@ -19,6 +19,7 @@ it('returns a 404 if the provided id does not exist', async () => {
 	await request(app)
 		.put(`/api/events/${id}`)
 		.set('Cookie', global.getAuthCookie())
+		//.attach('photo', '../../img/event.jpg')
 		.send({
 			title,
 			description,

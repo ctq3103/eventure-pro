@@ -1,14 +1,16 @@
-import express, { Request, Response, request } from 'express';
+import express, { Request, Response, Express } from 'express';
 import {
 	requireAuth,
 	validateRequest,
 	NotFoundError,
 	NotAuthorizedError,
+	BadRequestError,
 } from '@eventure/common';
 import { body } from 'express-validator';
 import { Event } from '../models/Event';
 import { natsWrapper } from '../nats-wrapper';
 import { EventUpdatedPublisher } from '../NATS-events/publishers/event-updated-publisher';
+import path from 'path';
 
 const router = express.Router();
 
@@ -43,7 +45,6 @@ router.put(
 			title,
 			address,
 			price,
-			totalTickets,
 			status,
 			datetime,
 			userId,

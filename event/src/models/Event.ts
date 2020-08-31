@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import { TicketStatus } from '@eventure/common';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import slugify from 'slugify';
+import { OrgDoc } from './Organization';
 
 //An Interface that describes the properties
 // that are required to create a new Event
@@ -24,7 +26,7 @@ interface EventModel extends mongoose.Model<EventDoc> {
 
 //An Interface that describes the properties
 // that a Event Document has
-interface EventDoc extends mongoose.Document {
+export interface EventDoc extends mongoose.Document {
 	id: string;
 	title: string;
 	description: string;
@@ -37,8 +39,14 @@ interface EventDoc extends mongoose.Document {
 	organizationId: string;
 	duration: string;
 	requirements: string;
+	slug: string;
 	version: number;
+	organization: OrgDoc;
 	paymentIds: string[];
+	image?: {
+		name: string;
+		data: Buffer;
+	};
 }
 
 const eventSchema = new mongoose.Schema(
@@ -85,6 +93,10 @@ const eventSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		organization: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Organization',
+		},
 		paymentIds: {
 			type: [String],
 			default: [],
@@ -95,6 +107,11 @@ const eventSchema = new mongoose.Schema(
 		requirements: {
 			type: String,
 		},
+		image: {
+			name: String,
+			data: Buffer,
+		},
+		slug: String,
 	},
 	{
 		toJSON: {
@@ -115,6 +132,25 @@ eventSchema.pre<EventDoc>('save', function () {
 		event.status = TicketStatus.SoldOut;
 	}
 });
+
+eventSchema.pre<EventDoc>('save', function () {
+	this.slug = slugify(this.title, { lower: true });
+});
+
+//Get average price of all events of a single organization
+eventSchema.statics.getAveragePrice = async function (organizationId: string) {
+	await this.aggregate([
+		{
+			$match: { organization: organizationId },
+		},
+		{
+			$group: {
+				id: '$organization',
+				averagePrice: { $avg: '$price' },
+			},
+		},
+	]);
+};
 
 eventSchema.statics.build = (attrs: EventAttrs) => {
 	return new Event(attrs);
